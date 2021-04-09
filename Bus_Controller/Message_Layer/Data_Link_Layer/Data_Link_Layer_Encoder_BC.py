@@ -1,5 +1,7 @@
-class DataLinkLayerEncoderBC:
+import codecs
 
+
+class DataLinkLayerEncoderBC:
     def __char_check(self, character):
         if not str.isdigit(character):
             print("Invalid address bits")
@@ -22,7 +24,7 @@ class DataLinkLayerEncoderBC:
         try:
             # Following string represents 3 Sync bits.
             # Command Word uses positive sync. Hence value is 100
-            cmd_word_frame = '100'
+            cmd_word_frame = "100"
 
             # Following 2 characters represent 5 bit RT Address.
             # Input is HEX. So, first HEX character represent a single bit
@@ -34,15 +36,15 @@ class DataLinkLayerEncoderBC:
             cmd_word_frame = cmd_word_frame + char1
 
             char2 = cmd_word[1]
-            cmd_word_frame = cmd_word_frame + '{0:04b}'.format(int(char2, 16))
+            cmd_word_frame = cmd_word_frame + "{0:04b}".format(int(char2, 16))
 
             # Next character shows Reception or Transmission command for RT
             # It is represented by 1 bit in data frame. 0 is R and 1 is T
             char3 = cmd_word[2]
-            if char3 == 'R':
-                cmd_word_frame = cmd_word_frame + '0'
-            elif char3 == 'T':
-                cmd_word_frame = cmd_word_frame + '1'
+            if char3 == "R":
+                cmd_word_frame = cmd_word_frame + "0"
+            elif char3 == "T":
+                cmd_word_frame = cmd_word_frame + "1"
             else:
                 print("Invalid T/R bit")
 
@@ -57,7 +59,7 @@ class DataLinkLayerEncoderBC:
             cmd_word_frame = cmd_word_frame + char4
 
             char5 = cmd_word[4]
-            cmd_word_frame = cmd_word_frame + '{0:04b}'.format(int(char5, 16))
+            cmd_word_frame = cmd_word_frame + "{0:04b}".format(int(char5, 16))
 
             # Next 2 characters from input represent 5
             # bit Word Count or Mode Code
@@ -69,10 +71,10 @@ class DataLinkLayerEncoderBC:
             cmd_word_frame = cmd_word_frame + char6
 
             char7 = cmd_word[6]
-            cmd_word_frame = cmd_word_frame + '{0:04b}'.format(int(char7, 16))
+            cmd_word_frame = cmd_word_frame + "{0:04b}".format(int(char7, 16))
 
             # We need to add one parity bit at the end of the message
-            cmd_word_frame = cmd_word_frame + '1'
+            cmd_word_frame = cmd_word_frame + "1"
 
             # print(cmd_word_frame)
             return cmd_word_frame
@@ -87,29 +89,34 @@ class DataLinkLayerEncoderBC:
     """
 
     def build_data_word(self, data_word):
+        data_word = data_word.decode("ascii")
+
         try:
             if len(data_word) > 4:
-                raise Exception("Invalid data input. Only 4 hex characters are\
-                    allowed in data word frame")
+                raise Exception(
+                    "Invalid data input. Only 4 hex characters are\
+                    allowed in data word frame"
+                )
 
             # Following 3 bits represent sync bits
             # Data word has negative sync hence the value 001
 
-            data_word_frame = '001'
+            data_word_frame = "001"
 
             # Following 4 characters in data words
             # are converted into 4 bit binary
             # and added to the data word frame
             for character in data_word:
-                data_word_frame = data_word_frame + \
-                    '{0:04b}'.format(int(character, 16))
+                data_word_frame = data_word_frame + "{0:04b}".format(
+                    int(character, base=16)
+                )
 
             # 1 bit parity is added at the end of the frame
-            data_word_frame = data_word_frame + '1'
+            data_word_frame = data_word_frame + "1"
 
             # print(data_word_frame)
 
-            return(data_word_frame)
+            return data_word_frame
         except Exception as ex:
             print("Exception while building a data word on BC")
             print("    Exception: {}".format(str(ex)))

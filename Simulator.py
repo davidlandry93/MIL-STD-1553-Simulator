@@ -1,4 +1,3 @@
-
 # from Bus_Controller.Data_Link_Layer_Encoder_BC import DataLinkLayerEncoderBC
 # from Remote_Terminal.Data_Link_Layer_Decoder_RT import DataLinkLayerDecoderRT
 
@@ -13,10 +12,14 @@
 #     import MessageLayerAnalyzerRT
 # from Bus_Controller.Physical_Layer_Emulation.Communication_Socket_BC \
 #     import BC_Sender
-from Bus_Controller.BC_Simulator import Bus_Controller
-from Remote_Terminal.RT_Simulator import Remote_Terminal
+
+import codecs
 import threading
 import time
+
+from Bus_Controller.BC_Simulator import Bus_Controller
+from Remote_Terminal.RT_Simulator import Remote_Terminal
+
 
 global bc_listener_thread
 global rt_listener_thread
@@ -40,23 +43,21 @@ if __name__ == "__main__":
     #     "01", "11", "SOme message"))
     # print(MessageLayerEncoderBC().receive_message_from_RT("01", "01", "02"))
     # print(
-    # MessageLayerAnalyzerRT().interprete_incoming_frame(
+    # MessageLayerAnalyzerRT().interpret_incoming_frame(
     #     "00100001010001001101")
-    # print(MessageLayerDecoderBC().interprete_incoming_frame(
+    # print(MessageLayerDecoderBC().interpret_incoming_frame(
     #         "10000001000000000011"))
     # BC_Sender().send_message("10000001000000000011")
 
     try:
-        """ Use following threads if you are running all the 
-            simulators on the same machine """
-        # bc_listener_thread = threading.Thread(
-        #     target=Bus_Controller().start_listener)
-        # bc_listener_thread.start()
-        # rt_listener_thread = threading.Thread(
-        #     target=Remote_Terminal().start_listener)
-        # rt_listener_thread.start()
+        """Use following threads if you are running all the simulators on the
+        same machine."""
+        bc_listener_thread = threading.Thread(target=Bus_Controller().start_listener)
+        bc_listener_thread.start()
+        rt_listener_thread = threading.Thread(target=Remote_Terminal().start_listener)
+        rt_listener_thread.start()
 
-        # time.sleep(5)
+        time.sleep(5)
 
         Bus_Controller().send_data_to_rt("01", "11", "Some Message")
         Bus_Controller().receive_data_from_rt("01", "01", "07")

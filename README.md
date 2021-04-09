@@ -2,7 +2,7 @@
 
 MIL-STD-1553 is a serial communication protocol that is used in spacecrafts for internal communication. A spacecraft consists of various components like main computer, star tracker, fly wheel, temperature sensor, cameras (also called as Remote Terminals) etc. The main computer needs to communicate with all the other peripherals to get the data and send it to ground station for further processing. This internal communication is done by a serial bus called MIL-STD-1553. This repository contains a simulation for this protocol. It can be used to create any space applications by importing the simulator into your code.
 
-MIL-STD-1553 has Bus Controller that orchestrates the transmission and reception of data on the serial bus. It always initiates the communication and commands Remote Terminal for sending or receiving data. Only one node or Remote Terminal can send data on the bus at a given moment when ordered by the Bus Controller. The details of the protocol can be found in [MIL-STD-1553 Tutorial and Reference](https://www.altadt.com/download/mil-std-1553-tutorial-and-reference/) document by Alta dt.   
+MIL-STD-1553 has Bus Controller that orchestrates the transmission and reception of data on the serial bus. It always initiates the communication and commands Remote Terminal for sending or receiving data. Only one node or Remote Terminal can send data on the bus at a given moment when ordered by the Bus Controller. The details of the protocol can be found in [MIL-STD-1553 Tutorial and Reference](https://www.altadt.com/download/mil-std-1553-tutorial-and-reference/) document by Alta dt.
 
 ## About This Repository:
 
@@ -14,12 +14,12 @@ This repository segregated based on various components that are described in the
 
 ## How To Use This Simulator
 
-This simulator uses ethernet communication instead of the actual physical communication that is mentioned in the standars. The standard is developed taking harsh and noisy conditions into account. The simulator majorly focuses on data layer of the standard. Based on this, you can either deploy both the simulators on the same machine and test it over the local loopback or you can deploy separate simulators on separate machines in a single subnet or same network. 
-  
+This simulator uses ethernet communication instead of the actual physical communication that is mentioned in the standars. The standard is developed taking harsh and noisy conditions into account. The simulator majorly focuses on data layer of the standard. Based on this, you can either deploy both the simulators on the same machine and test it over the local loopback or you can deploy separate simulators on separate machines in a single subnet or same network.
+
 You can run the following commands to run the simulators
 
-* python BC_Simulator.py
-* python RT_Simulator.py
+* python -m Bus_Controler.BC_Simulator
+* python -m Remote_Terminal.RT_Simulator
 * python Simulator.py
 
 Or you can uncomment a section of code in Simulator.py that creates threads for Bus Controller Simulator and Remote Terminal Simulator and then run the following command
